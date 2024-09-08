@@ -1,6 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { UsersService } from '@users/users.service';
 import { JwtModule } from '@nestjs/jwt';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { User } from './user.entity';
+import { Repository } from 'typeorm';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 
 describe('UsersService Integration', () => {
   let userService: UsersService;
@@ -12,7 +16,19 @@ describe('UsersService Integration', () => {
           signOptions: { expiresIn: '1d' },
         }),
       ],
-      providers: [UsersService],
+      providers: [
+        UsersService,
+        {
+          provide: getRepositoryToken(User),
+          useClass: Repository<User>,
+        },
+        {
+          provide: CACHE_MANAGER,
+          useValue: {
+            set: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     userService = module.get<UsersService>(UsersService);

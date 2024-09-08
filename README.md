@@ -1,73 +1,115 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Code Execution API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is an API that can execute code in the following languages: Java, Python, C++, and JavaScript. When you log in and execute the code, it will be stored for 7 days from the last execution.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# Getting Started
 
-## Description
+## Requirements
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Before setting up the project, ensure you have the following installed on your system:
 
-## Installation
+- **1. Docker**: The application uses Docker containers for deployment and execution. Make sure Docker is installed and running on your system. You can download Docker from [here](https://www.docker.com/get-started).
+
+- **2. Node.js (v20 or higher)**: The project requires Node.js version 20 or higher. You can download and install Node.js from [here](https://nodejs.org/).
+  > **Note**: Due to a limitation with mounting volumes in the Docker socket, the API will temporarily run on the host machine's Node.js instead of inside a container. This issue will be fixed in a future release.
+
+To check if Node.js is installed and verify its version, run the following command:
 
 ```bash
-$ npm install
+node -v
 ```
 
-## Running the app
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
 
 ```bash
-# development
-$ npm run start
+# Database configuration
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=postgres
+DATABASE_NAME=db
+DATABASE_SYNCHRONIZE=true
 
-# watch mode
-$ npm run start:dev
+# Redis configuration
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_TTL=604800000  # Time to live in milliseconds (7 days)
 
-# production mode
-$ npm run start:prod
+# JWT configuration
+JWT_SECRET_KEY=7f29f3f86b204f2f9b1b72b2d735a9cd6b873b42a2e60d1a5a7be6f5584ff056b2f3c4a9f64e198a193d1e6cb7380f127431c4e8e720e074cbb6f819f0a85c94
+JWT_EXPIRATION=60m  # Token expiration time
+
+# API configuration
+API_KEY=254a3c48-1456-4a8d-9b6c-bec4aa5f23a9
+API_PORT=3000
+API_PREFIX=api
+API_VERSION=v1
 ```
 
-## Test
+## Running the project
+
+To run the project, follow these steps:
+
+**1. Start PostgreSQL and Redis**: Use Docker Compose to spin up the necessary services (Postgres and Redis).
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker-compose up
 ```
 
-## Support
+**2. Set up necessary Docker images**: Run the following command to ensure that the required Docker images for execution are set up correctly.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+chomd +x ./setup-image.sh && ./setup-image.sh
+```
 
-## Stay in touch
+**3. Run the API**: Once the services and images are ready, you can start the API using the following command:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+npm run start
+```
 
-## License
+# Running Tests
 
-Nest is [MIT licensed](LICENSE).
+To run tests, run the following command:
+
+- **1. Unit Test**:
+
+```bash
+  npm run test
+```
+
+- **2. E2E Test**:
+
+```bash
+  # Set up
+  docker compose up
+
+  # E2E test 'UsersController'
+  npm run test:e2e:users
+
+  # E2E test 'ExecutionsController'
+  npm run test:e2e:executions
+```
+
+# Key Technologies
+
+The project is built using the following technologies:
+
+- **1. Node.js**: Backend runtime environment.
+- **2. NestJS**: A progressive Node.js framework for building efficient and scalable server-side applications.
+- **3. PostgreSQL**: Relational database management system.
+- **4. Redis**: In-memory data store used for caching.
+- **5. JWT (JSON Web Tokens)**: For secure authentication and authorization.
+- **6. Docker**: Containerization for isolating the application environment.
+- **7. Swagger**: Used for API documentation and testing, providing an interactive interface to explore and test the API endpoints.
+- **8. Unit Testing**: Jest is used for writing and running unit tests to ensure code quality and correctness.
+- **9. E2E Testing**: End-to-end testing is implemented using Jest to simulate real-world use cases and validate the entire flow.
+
+# API Documentation
+
+- **1. Open link**: [http://localhost:3000/api/v1/docs](http://localhost:3000/api/v1/docs)
+
+- **2. Screen Short**:
+  ![API Document Screenshot](./screenshorts/swagger.png)
