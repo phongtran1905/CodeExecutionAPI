@@ -2,6 +2,20 @@
 
 This is an API that can execute code in the following languages: Java, Python, C++, and JavaScript. When you log in and execute the code, it will be stored for 7 days from the last execution.
 
+# Key Technologies
+
+The project is built using the following technologies:
+
+- **1. Node.js**: Backend runtime environment.
+- **2. NestJS**: A progressive Node.js framework for building efficient and scalable server-side applications.
+- **3. PostgreSQL**: Relational database management system.
+- **4. Redis**: In-memory data store used for caching.
+- **5. JWT (JSON Web Tokens)**: For secure authentication and authorization.
+- **6. Docker**: Containerization for isolating the application environment.
+- **7. Swagger**: Used for API documentation and testing, providing an interactive interface to explore and test the API endpoints.
+- **8. Unit Testing**: Jest is used for writing and running unit tests to ensure code quality and correctness.
+- **9. E2E Testing**: End-to-end testing is implemented using Jest to simulate real-world use cases and validate the entire flow.
+
 # Getting Started
 
 ## Requirements
@@ -93,23 +107,9 @@ To run tests, run the following command:
   npm run test:e2e:executions
 ```
 
-# Key Technologies
-
-The project is built using the following technologies:
-
-- **1. Node.js**: Backend runtime environment.
-- **2. NestJS**: A progressive Node.js framework for building efficient and scalable server-side applications.
-- **3. PostgreSQL**: Relational database management system.
-- **4. Redis**: In-memory data store used for caching.
-- **5. JWT (JSON Web Tokens)**: For secure authentication and authorization.
-- **6. Docker**: Containerization for isolating the application environment.
-- **7. Swagger**: Used for API documentation and testing, providing an interactive interface to explore and test the API endpoints.
-- **8. Unit Testing**: Jest is used for writing and running unit tests to ensure code quality and correctness.
-- **9. E2E Testing**: End-to-end testing is implemented using Jest to simulate real-world use cases and validate the entire flow.
-
 # API Documentation
 
 - **1. Open link**: [http://localhost:3000/api/v1/docs](http://localhost:3000/api/v1/docs)
 
 - **2. Screen Short**:
-  ![API Document Screenshot](./screenshorts/swagger.png)
+  ![API Document Screenshot](./screenshots/swagger.png)
