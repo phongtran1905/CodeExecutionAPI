@@ -66,19 +66,19 @@ API_VERSION=v1
 
 To run the project, follow these steps:
 
-**1. Start PostgreSQL and Redis**: Use Docker Compose to spin up the necessary services (Postgres and Redis).
+- **1. Start PostgreSQL and Redis**: Use Docker Compose to spin up the necessary services (Postgres and Redis).
 
 ```bash
 docker-compose up
 ```
 
-**2. Set up necessary Docker images**: Run the following command to ensure that the required Docker images for execution are set up correctly.
+- **2. Set up necessary Docker images**: Run the following command to ensure that the required Docker images for execution are set up correctly.
 
 ```bash
 chomd +x ./setup-image.sh && ./setup-image.sh
 ```
 
-**3. Run the API**: Once the services and images are ready, you can start the API using the following command:
+- **3. Run the API**: Once the services and images are ready, you can start the API using the following command:
 
 ```bash
 npm run start
